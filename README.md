@@ -18,13 +18,13 @@ $ npm install
 
 ## Execution
 
-Execution at project's racine 
+run at project root
 
 ```
 $ python app.py
 ```
 
-Execution at project's racine 
+run at project root
 
 ```
 $ npm start 
