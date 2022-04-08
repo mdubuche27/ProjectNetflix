@@ -1,0 +1,114 @@
+---
+swagger: "2.0"
+info:
+  description: ""
+  version: "1.0.0"
+  title: "NetflixAccount"
+host: "virtserver.swaggerhub.com"
+basePath: "/mdubuche27/NetflixAccount/1.0.0"
+schemes:
+- "https"
+paths:
+  /user:
+    get:
+      summary: "Returns users"
+      operationId: "getUsers"
+      parameters: []
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/user"
+        "404":
+          description: "users not found"
+      x-swagger-router-controller: "Default"
+    post:
+      summary: "Add User"
+      operationId: "addUser"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/user"
+      responses:
+        "200":
+          description: "successful operation"
+        "405":
+          description: "Invalid input"
+      x-swagger-router-controller: "Default"
+  /user/{userId}:
+    get:
+      summary: "get a user by Id"
+      operationId: "getUser"
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+        "404":
+          description: "Invalid url"
+      x-swagger-router-controller: "Default"
+    delete:
+      summary: "delete a user by Id"
+      operationId: "deleteUser"
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+        "404":
+          description: "Invalid url"
+      x-swagger-router-controller: "Default"
+    patch:
+      summary: "delete a user by Id"
+      operationId: "updateUser"
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "user"
+        required: true
+        schema:
+          $ref: "#/definitions/user"
+      responses:
+        "200":
+          description: "successful operation"
+        "404":
+          description: "Invalid url"
+      x-swagger-router-controller: "Default"
+definitions:
+  user:
+    type: "object"
+    required:
+    - "admin"
+    - "name"
+    - "password"
+    properties:
+      name:
+        type: "string"
+      password:
+        type: "string"
+      country:
+        type: "string"
+      admin:
+        type: "boolean"
+      actif:
+        type: "boolean"
+    xml:
+      name: "user"
+    example:
+      name: "maxence"
+      password: "password123"
+      admin: true
+      actif: true

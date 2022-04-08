@@ -7,6 +7,6 @@ DEBUG = True
 # Connect to the database
 MONGODB_DB = 'netflixPoster'
 MONGODB_HOST = 'localhost'
-MONGODB_PORT = 27018
-MONGODB_USERNAME = 'root'
-MONGODB_PASSWORD = 'root'
+MONGODB_PORT = 27017
+#MONGODB_USERNAME = 'webapp'
+#MONGODB_PASSWORD = '27017'

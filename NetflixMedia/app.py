@@ -25,8 +25,8 @@ def hello_world():  # put application's code here
 @app.before_request
 def before_request_func():
     try:
-        r = requests.get(f'http://127.0.0.1:5001/users/{request.headers.get("idUser")}')
-        if r.json()['status'] == 'on':
+        r = requests.get(f'http://127.0.0.1:5001/users/{request.headers.get("idUser")}/authorized')
+        if r.json():
             pass
         else:
             return "400"

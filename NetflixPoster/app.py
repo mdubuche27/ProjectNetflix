@@ -9,7 +9,7 @@ from routes.swaggerRoute import swagger_route
 app = Flask(__name__)
 app.config.from_object('config')
 app.register_blueprint(posters_route, url_prefix='/posters')
-app.register_blueprint(posters_by_hours_route, url_prefix='/postersbyhours')
+app.register_blueprint(posters_by_hours_route, url_prefix='/currentposters')
 app.register_blueprint(medias_route, url_prefix='/medias')
 app.register_blueprint(swagger_route)
 db = MongoEngine()

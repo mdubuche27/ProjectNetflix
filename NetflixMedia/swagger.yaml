@@ -1,0 +1,722 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/AdrienLEIB/netflix/1.0.0
+info:
+  description: This is a simple API
+  version: "1.0.0"
+  title: Simple Inventory API
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+paths:
+  /medias:
+    get:
+      tags:
+        - usersVIP
+      summary: get all medias
+      operationId: searchInventory
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system`
+
+      parameters:
+        - name: idUser
+          in: header
+          description: User ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: title
+          description: pass an optional search string for looking up inventory
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: url
+          description: number of records to skip for pagination
+          schema:
+            type: string
+        - in: query
+          name: categorie
+          description: number of records to skip for pagination
+          schema:
+            type: string
+        - in: query
+          name: description
+          description: number of records to skip for pagination
+          schema:
+            type: string
+        - in: query
+          name: id
+          description: id Of an media
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MediaInventory'
+        '400':
+          description: bad input parameter
+    post:
+      tags:
+        - admins
+      summary: adds an inventory média
+      operationId: addInventory
+      description: Add media item to the system
+      parameters:
+        - name: idUser
+          in: header
+          description: User ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing item already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MediaInventory'
+        description: Inventory item to add
+  /films/{id}:
+    put:
+      tags:
+        - admins
+      summary: update film by id
+      description: put film by id
+      operationId: putFilm
+      parameters:
+      - name: id
+        in: path
+        description: filmID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: idUser
+        in: header
+        description: User ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilmsItem'
+    get:
+      tags:
+        - admins
+      summary: update film by id
+      description: get film by id
+      operationId: getFilm
+      parameters:
+      - name: id
+        in: path
+        description: filmID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: idUser
+        in: header
+        description: User ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilmsItem'
+
+    delete:
+      tags:
+        - admins
+      summary: update film by id
+      description: get film by id
+      operationId: deleteFilm
+      parameters:
+      - name: id
+        in: path
+        description: filmID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: idUser
+        in: header
+        description: User ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilmsItem'
+
+  /films:
+    get:
+      tags:
+        - usersVIP
+      summary: get all films
+      operationId: searchFilms
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      parameters:
+        - name: idUser
+          in: header
+          description: User ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: title
+          description: pass an optional search string for looking up inventory
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: url
+          description: number of records to skip for pagination
+          schema:
+            type: string
+        - in: query
+          name: categorie
+          description: number of records to skip for pagination
+          schema:
+            type: string
+        - in: query
+          name: description
+          description: number of records to skip for pagination
+          schema:
+            type: string
+        - in: query
+          name: id
+          description: id Of an media
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FilmsItem'
+        '400':
+          description: bad input parameter
+    post:
+      tags:
+        - admins
+      summary: add film to inventory
+      operationId: addFilms
+      description: Adds an item to the system
+      parameters:
+        - name: idUser
+          in: header
+          description: User ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing item already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FilmsItem'
+        description: Inventory item to add
+
+  /series/{id}:
+    put:
+      tags:
+        - admins
+      summary: update serie by id
+      description: put serie by id
+      operationId: putSerie
+      parameters:
+      - name: id
+        in: path
+        description: serieID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: idUser
+        in: header
+        description: User ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeriesItem'
+    get:
+      tags:
+        - admins
+      summary: get Serie by id
+      description: get Serie by id
+      operationId: getSerie
+      parameters:
+      - name: id
+        in: path
+        description: SerieID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: idUser
+        in: header
+        description: User ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeriesItem'
+
+    delete:
+      tags:
+        - admins
+      summary: update serie by id
+      description: get serie by id
+      operationId: deleteSerie
+      parameters:
+      - name: id
+        in: path
+        description: serieID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: idUser
+        in: header
+        description: User ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeriesItem'
+
+  /series:
+    get:
+      tags:
+        - usersVIP
+      summary: get all Series
+      operationId: searchSeries
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      parameters:
+        - name: idUser
+          in: header
+          description: User ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: title
+          description: pass an optional search string for looking up inventory
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: url
+          description: number of records to skip for pagination
+          schema:
+            type: string
+        - in: query
+          name: categorie
+          description: number of records to skip for pagination
+          schema:
+            type: string
+        - in: query
+          name: description
+          description: number of records to skip for pagination
+          schema:
+            type: string
+        - in: query
+          name: id
+          description: id Of an media
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SeriesItem'
+        '400':
+          description: bad input parameter
+    post:
+      tags:
+        - admins
+      summary: add serie to inventory
+      operationId: addSeries
+      description: Adds an item to the system
+      parameters:
+        - name: idUser
+          in: header
+          description: User ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing item already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FilmsItem'
+        description: Inventory item to add
+
+
+  /episodes/{id}:
+    put:
+      tags:
+        - admins
+      summary: update episode by id
+      description: put episode by id
+      operationId: putEpisode
+      parameters:
+      - name: id
+        in: path
+        description: serieID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: idUser
+        in: header
+        description: User ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EpisodesItem'
+    get:
+      tags:
+        - admins
+      summary: get Episode by id
+      description: get EPisode by id
+      operationId: getEpisode
+      parameters:
+      - name: id
+        in: path
+        description: EpisodeID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: idUser
+        in: header
+        description: User ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EpisodesItem'
+
+    delete:
+      tags:
+        - admins
+      summary: update Episode by id
+      description: get episode by id
+      operationId: deleteEpisode
+      parameters:
+      - name: id
+        in: path
+        description: EpisodeID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: idUser
+        in: header
+        description: User ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeriesItem'
+
+  /episodes:
+    get:
+      tags:
+        - usersVIP
+      summary: get all Series
+      operationId: searchEpisodes
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      parameters:
+        - name: idUser
+          in: header
+          description: User ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: idSerie
+          description: pass an optional search string for looking up inventory
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SeriesItem'
+        '400':
+          description: bad input parameter
+    post:
+      tags:
+        - admins
+      summary: add serie to inventory
+      operationId: addEpisodes
+      description: Adds an item to the system
+      parameters:
+        - name: idUser
+          in: header
+          description: User ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing item already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EpisodesItem'
+        description: Inventory item to add
+components:
+  schemas:
+    FilmsItem:
+      type: object
+      required:
+        - media
+      properties:
+        media:
+          $ref: '#/components/schemas/MediaInventory'
+
+    SeriesItem:
+      type: object
+      required:
+        - episodes
+      properties:
+        episodes:
+          $ref: '#/components/schemas/EpisodesItem'
+
+    EpisodesItem:
+      type: object
+      required:
+        - idSerie
+        - number
+        - url
+        - status
+      properties:
+        idSerie:
+          $ref: '#/components/schemas/SeriesItem'
+        url:
+          type: string
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+        number:
+          type: integer
+          example: 1
+
+
+    MediaInventory:
+      type: object
+      required:
+        - id
+        - title
+        - url
+        - categorie
+        - description
+        - localisation
+        - status
+        - img
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        title:
+          type: string
+          example: Widget Adapter
+        url:
+          type: string
+          example: 'https://www.youtube.com/watch?v=BTOVgWjUoDo'
+        categorie:
+          type: string
+          example: Widget Adapter
+        description:
+          type: string
+          example: Widget Adapter
+        localisation:
+          type: string
+          example: Widget Adapter
+        status:
+          type: string
+          example: Widget Adapter
+        img:
+          type: string
+          example: Widget Adapter

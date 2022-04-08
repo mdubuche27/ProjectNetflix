@@ -1,0 +1,245 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/AdrienLEIB/netflix/1.0.0
+info:
+  description: This is a simple API
+  version: "1.0.0"
+  title: Simple Inventory API
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+paths:
+  /posters_by_hours_route:
+    get:
+      tags:
+        - usersVIP
+      summary: get media by hours specified
+      operationId: searchInventory
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system`
+      
+      parameters:
+        - in: query
+          name: hours
+          description: hours now
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 24
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PostersItem'
+        '400':
+          description: bad input parameter
+  /posters/{id}:
+    put:
+      tags:
+        - admins
+      summary: update poster by id
+      description: put poster by id
+      operationId: putposter
+      parameters:
+      - name: id
+        in: path
+        description: posterID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: idUser
+        in: header
+        description: User ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostersItem'
+    get:
+      tags:
+        - admins
+      summary: update poster by id
+      description: get poster by id
+      operationId: getposter
+      parameters:
+      - name: id
+        in: path
+        description: posterID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: idUser
+        in: header
+        description: User ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostersItem'
+                
+    delete:
+      tags:
+        - admins
+      summary: update poster by id
+      description: get poster by id
+      operationId: deleteposter
+      parameters:
+      - name: id
+        in: path
+        description: posterID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: idUser
+        in: header
+        description: User ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostersItem'
+                
+  /posters:
+    get:
+      tags:
+        - usersVIP
+      summary: get all posters
+      operationId: searchposters
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      parameters:
+        - name: idUser
+          in: header
+          description: User ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: title
+          description: pass an optional search string for looking up inventory
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: idMedia
+          description: id Of an media
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PostersItem'
+        '400':
+          description: bad input parameter
+    post:
+      tags:
+        - admins
+      summary: add poster to inventory
+      operationId: addposters
+      description: Adds an item to the system
+      parameters:
+        - name: idUser
+          in: header
+          description: User ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing item already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostersItem'
+        description: Inventory item to add
+        
+
+components:
+  schemas:
+    PostersItem:
+      type: object
+      required:
+        - id
+        - img
+        - time_of_the_days
+        - idMedia
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        img:
+          type: string
+          example: Widget Adapter
+        time_of_the_days:
+          type: string
+          example: "morning"
+        idMedia:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
