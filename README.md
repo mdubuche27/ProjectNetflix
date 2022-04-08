@@ -1,2 +1,2 @@
 # ProjectNetflix
-#Adiren Leib et Maxence Dubuche
+# Adrien Leib et Maxence Dubuche
