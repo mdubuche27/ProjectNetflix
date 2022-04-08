@@ -14,5 +14,18 @@ Install with npm:
 
 ```
 $ npm install 
-$ npm start
+```
+
+## Execution
+
+Execution at project's racine 
+
+```
+$ python app.py
+```
+
+Execution at project's racine 
+
+```
+$ npm start 
 ```
