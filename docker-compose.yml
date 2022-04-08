@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  dbuser:
+    image: mongo:latest
+    hostname: netflixUser
+    environment:
+      - MONGO_INITDB_DATABASE=netflixUser
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    volumes:
+      - ./init-db-user.js:/docker-entrypoint-initdb.d/init-db.js:ro
+      - ./DockerVolumes/NetflixUser/db:/data/db
+    ports:
+      - 27019:27019
+
+  dbmedia:
+    image: mongo:latest
+    hostname: NetflixMedia
+    environment:
+      - MONGO_INITDB_DATABASE=NetflixMedia
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    volumes:
+      - ./init-db-media.js:/docker-entrypoint-initdb.d/init-db.js:ro
+      - ./DockerVolumes/NetflixMedia/db:/data/db
+    ports:
+      - 27017:27017
+
+  dbposter:
+    image: mongo:latest
+    hostname: NetflixPoster
+    environment:
+      - MONGO_INITDB_DATABASE=NetflixPoster
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    volumes:
+      - ./init-db-poster.js:/docker-entrypoint-initdb.d/init-db.js:ro
+      - ./DockerVolumes/NetflixPoster/db:/data/db
+    ports:
+      - 27018:27018
+
+  appuser:
+    build: 
+      context: NetflixUser/
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    depends_on:
+      - dbuser
+
+  appposter:
+    build: 
+      context: NetflixPoster/
+      dockerfile: Dockerfile
+    ports:
+      - "5002:5002"
+    depends_on:
+      - dbposter
+
+  appmedia:
+    build: 
+      context: NetflixMedia/
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - dbmedia

@@ -1,0 +1,5 @@
+flask_mongoengine
+pymongo
+flask-restx
+flask
+requests
